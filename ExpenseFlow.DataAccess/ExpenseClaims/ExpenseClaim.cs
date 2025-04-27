@@ -1,7 +1,9 @@
-﻿namespace ExpenseFlow.DataAccess.Domain;
+﻿using ExpenseFlow.DataAccess.ExpenseCategories;
+
+namespace ExpenseFlow.DataAccess.ExpenseClaims;
 public class ExpenseClaim : BaseEntity
 {
-    public long UserId { get; set; }
+    //public long UserId { get; set; }
     public long CategoryId { get; set; }
     public decimal Amount { get; set; }
     public string Location { get; set; } = default!;
@@ -15,9 +17,9 @@ public class ExpenseClaim : BaseEntity
     public DateTime? ApprovalDate { get; set; }
     public long? ApprovedByUserId { get; set; }
 
-    public virtual User User { get; set; }
-    public virtual User? ApprovedByUser { get; set; }
-    public virtual ExpenseCategory Category { get; set; } 
+    //public virtual User User { get; set; }
+    //public virtual User? ApprovedByUser { get; set; }
+    public virtual ExpenseCategory Category { get; set; }
 }
 
 public enum ExpenseStatus

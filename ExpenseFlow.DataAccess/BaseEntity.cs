@@ -1,4 +1,4 @@
-﻿namespace ExpenseFlow.DataAccess.Domain;
+﻿namespace ExpenseFlow.DataAccess;
 
 public class BaseEntity
 {

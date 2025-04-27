@@ -1,4 +1,6 @@
-﻿namespace ExpenseFlow.DataAccess.Domain;
+﻿using ExpenseFlow.DataAccess.ExpenseClaims;
+
+namespace ExpenseFlow.DataAccess.ExpenseCategories;
 public class ExpenseCategory : BaseEntity
 {
     public string Name { get; set; } = default!;
