@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExpenseFlow.DataAccess.Migrations
 {
     [DbContext(typeof(ExpenseFlowDbContext))]
-    [Migration("20250427172154_initial")]
-    partial class initial
+    [Migration("20250429170223_mig_1")]
+    partial class mig_1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -1,7 +1,7 @@
 ﻿using ExpenseFlow.DataAccess.ExpenseCategories;
 
 namespace ExpenseFlow.DataAccess.ExpenseClaims;
-public class ExpenseClaim : BaseEntity
+public class ExpenseClaim : BaseEntity<int>
 {
     //public long UserId { get; set; }
     public long CategoryId { get; set; }

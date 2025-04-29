@@ -45,17 +45,6 @@ public class ExpenseClaimConfiguration : IEntityTypeConfiguration<ExpenseClaim>
         builder.Property(x => x.ApprovedByUserId)
             .IsRequired(false);
 
-        // Relationships
-        //builder.HasOne(x => x.User)
-        //    .WithMany()
-        //    .HasForeignKey(x => x.UserId)
-        //    .OnDelete(DeleteBehavior.Restrict);
-
-        //builder.HasOne(x => x.ApprovedByUser)
-        //    .WithMany()
-        //    .HasForeignKey(x => x.ApprovedByUserId)
-        //    .OnDelete(DeleteBehavior.Restrict);
-
         builder.HasOne(x => x.Category)
             .WithMany()
             .HasForeignKey(x => x.CategoryId)

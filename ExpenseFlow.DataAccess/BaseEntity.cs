@@ -1,8 +1,9 @@
 ﻿namespace ExpenseFlow.DataAccess;
 
-public class BaseEntity
+public class BaseEntity<T>
 {
-    public long Id { get; set; }
+    public T Id { get; set; } = default!;
+    //public long Id { get; set; }
     public DateTime CreatedDate { get; set; }
     public DateTime? UpdatedDate { get; set; }
     public bool IsActive { get; set; }
