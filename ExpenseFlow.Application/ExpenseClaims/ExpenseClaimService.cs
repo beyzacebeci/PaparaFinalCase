@@ -1,6 +1,14 @@
-﻿namespace ExpenseFlow.Application.ExpenseClaims;
+﻿using ExpenseFlow.DataAccess.ExpenseClaims;
 
-public class ExpenseClaimService
+namespace ExpenseFlow.Application.ExpenseClaims;
+
+public class ExpenseClaimService : IExpenseClaimService
 {
+    private readonly IExpenseClaimRepository _expenseClaimRepository;
+
+    public ExpenseClaimService(IExpenseClaimRepository expenseClaimRepository)
+    {
+        _expenseClaimRepository = expenseClaimRepository;
+    }
 }
 

@@ -1,3 +1,4 @@
+using ExpenseFlow.Application.Extensions;
 using ExpenseFlow.DataAccess.Extensions;
 
 
@@ -8,7 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDataAccesses(builder.Configuration);
+builder.Services.AddDataAccesses(builder.Configuration).AddApplications(builder.Configuration);
 
 var app = builder.Build();
 

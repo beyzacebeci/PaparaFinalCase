@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ExpenseFlow.DataAccess.AppUnitOfWork;
+using ExpenseFlow.DataAccess.ExpenseClaims;
+using ExpenseFlow.DataAccess.GenericRepository;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,6 +23,19 @@ public static class DataAccessExtensions
 
        
         });
+
+        services.AddScoped<IExpenseClaimRepository, ExpenseClaimRepository>();
+        services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
         return services;
+   
+    
+    
+    
+    
     }
+
+
 }

@@ -1,12 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using ExpenseFlow.DataAccess.GenericRepository;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ExpenseFlow.DataAccess.GenericRepository;
+namespace ExpenseFlow.DataAccess;
 
 public class GenericRepository<T, TId>: IGenericRepository<T, TId> where T 
     : BaseEntity<TId> where TId : struct
