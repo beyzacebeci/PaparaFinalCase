@@ -42,8 +42,8 @@ public class ExpenseClaimConfiguration : IEntityTypeConfiguration<ExpenseClaim>
         builder.Property(x => x.ApprovalDate)
             .IsRequired(false);
 
-        builder.Property(x => x.ApprovedByUserId)
-            .IsRequired(false);
+        //builder.Property(x => x.ApprovedByUserId)
+        //    .IsRequired(false);
 
         builder.HasOne(x => x.Category)
             .WithMany()

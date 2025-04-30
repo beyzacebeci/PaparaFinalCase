@@ -15,7 +15,7 @@ public class ExpenseClaim : BaseEntity<int>
     public PaymentMethod PaymentMethod { get; set; }
     public string? PaymentReference { get; set; }
     public DateTime? ApprovalDate { get; set; }
-    public long? ApprovedByUserId { get; set; }
+    //public long? ApprovedByUserId { get; set; }
 
     //public virtual User User { get; set; }
     //public virtual User? ApprovedByUser { get; set; }

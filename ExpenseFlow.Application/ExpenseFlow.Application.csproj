@@ -13,12 +13,12 @@
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 		<Folder Include="CQRS\Query\" />
-		<Folder Include="Mapping\" />
 		<Folder Include="ExceptionHandlers\" />
 		<Folder Include="Validation\" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="14.0.0" />
 		<PackageReference Include="MediatR" Version="12.5.0" />
 		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
 	</ItemGroup>
