@@ -12,6 +12,8 @@ public static class ApplicationExtensions
         services.AddScoped<IExpenseClaimService, ExpenseClaimService>();
        
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
         return services;
     }
 }

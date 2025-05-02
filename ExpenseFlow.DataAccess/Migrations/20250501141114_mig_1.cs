@@ -15,7 +15,7 @@ namespace ExpenseFlow.DataAccess.Migrations
                 name: "ExpenseCategory",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
@@ -32,9 +32,9 @@ namespace ExpenseFlow.DataAccess.Migrations
                 name: "ExpenseClaim",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryId = table.Column<long>(type: "bigint", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     ExpenseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -45,8 +45,7 @@ namespace ExpenseFlow.DataAccess.Migrations
                     PaymentMethod = table.Column<int>(type: "int", nullable: false),
                     PaymentReference = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     ApprovalDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ApprovedByUserId = table.Column<long>(type: "bigint", nullable: true),
-                    ExpenseCategoryId = table.Column<long>(type: "bigint", nullable: true),
+                    ExpenseCategoryId = table.Column<int>(type: "int", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)

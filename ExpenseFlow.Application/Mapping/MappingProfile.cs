@@ -1,6 +1,15 @@
-﻿namespace ExpenseFlow.Application.Mapping;
+﻿using AutoMapper;
+using ExpenseFlow.Application.ExpenseClaims;
+using ExpenseFlow.DataAccess.ExpenseClaims;
 
-public class MappingProfile
+namespace ExpenseFlow.Application.Mapping;
+
+public class MappingProfile : Profile
+    
 {
+    public MappingProfile()
+    {
+        CreateMap<ExpenseClaim,ExpenseClaimResponse>().ReverseMap(); 
+    }
 }
 

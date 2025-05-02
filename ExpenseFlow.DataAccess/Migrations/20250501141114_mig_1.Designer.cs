@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExpenseFlow.DataAccess.Migrations
 {
     [DbContext(typeof(ExpenseFlowDbContext))]
-    [Migration("20250429170223_mig_1")]
+    [Migration("20250501141114_mig_1")]
     partial class mig_1
     {
         /// <inheritdoc />
@@ -27,11 +27,11 @@ namespace ExpenseFlow.DataAccess.Migrations
 
             modelBuilder.Entity("ExpenseFlow.DataAccess.ExpenseCategories.ExpenseCategory", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -59,11 +59,11 @@ namespace ExpenseFlow.DataAccess.Migrations
 
             modelBuilder.Entity("ExpenseFlow.DataAccess.ExpenseClaims.ExpenseClaim", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
@@ -71,11 +71,8 @@ namespace ExpenseFlow.DataAccess.Migrations
                     b.Property<DateTime?>("ApprovalDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("ApprovedByUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("CategoryId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -89,8 +86,8 @@ namespace ExpenseFlow.DataAccess.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<long?>("ExpenseCategoryId")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("ExpenseCategoryId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ExpenseDate")
                         .HasColumnType("datetime2");

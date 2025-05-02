@@ -4,7 +4,7 @@ namespace ExpenseFlow.DataAccess.ExpenseClaims;
 public class ExpenseClaim : BaseEntity<int>
 {
     //public long UserId { get; set; }
-    public long CategoryId { get; set; }
+    public int CategoryId { get; set; }
     public decimal Amount { get; set; }
     public string Location { get; set; } = default!;
     public DateTime ExpenseDate { get; set; }
