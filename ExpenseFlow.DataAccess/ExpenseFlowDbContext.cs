@@ -1,11 +1,13 @@
 ﻿using ExpenseFlow.DataAccess.ExpenseCategories;
 using ExpenseFlow.DataAccess.ExpenseClaims;
+using ExpenseFlow.DataAccess.Users;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace ExpenseFlow.DataAccess;
 
-public class ExpenseFlowDbContext : DbContext 
+public class ExpenseFlowDbContext : IdentityDbContext<User>
 {
     public ExpenseFlowDbContext(DbContextOptions<ExpenseFlowDbContext> options) : base(options)
     {        
@@ -16,8 +18,10 @@ public class ExpenseFlowDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(modelBuilder);
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+       
+
     }
 
 }

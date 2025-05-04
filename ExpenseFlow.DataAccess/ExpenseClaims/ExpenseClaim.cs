@@ -5,6 +5,7 @@ public class ExpenseClaim : BaseEntity<int>
 {
     //public long UserId { get; set; }
     public int CategoryId { get; set; }
+    public string UserId { get; set; }
     public decimal Amount { get; set; }
     public string Location { get; set; } = default!;
     public DateTime ExpenseDate { get; set; }
@@ -15,6 +16,8 @@ public class ExpenseClaim : BaseEntity<int>
     public PaymentMethod PaymentMethod { get; set; }
     public string? PaymentReference { get; set; }
     public DateTime? ApprovalDate { get; set; }
+
+
     //public long? ApprovedByUserId { get; set; }
 
     //public virtual User User { get; set; }
