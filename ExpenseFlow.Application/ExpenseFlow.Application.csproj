@@ -12,7 +12,6 @@
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-		<Folder Include="CQRS\Query\" />
 		<Folder Include="Validation\" />
 	</ItemGroup>
 

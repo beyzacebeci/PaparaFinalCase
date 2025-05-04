@@ -13,14 +13,14 @@ public class ExpenseCategoryConfiguration : IEntityTypeConfiguration<ExpenseCate
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.Property(x => x.Description)
-            .IsRequired()
-            .HasMaxLength(500);
-
         builder.HasMany(x => x.ExpenseClaims)
             .WithOne(x => x.Category)
             .HasForeignKey(x => x.CategoryId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Property(x => x.IsActive)
+    .IsRequired()
+    .HasDefaultValue(true);
     }
     }
 

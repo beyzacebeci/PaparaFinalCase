@@ -30,9 +30,6 @@ public class ExpenseClaimConfiguration : IEntityTypeConfiguration<ExpenseClaim>
         builder.Property(x => x.RejectionReason)
             .HasMaxLength(500);
 
-        builder.Property(x => x.DocumentUrl)
-            .HasMaxLength(500);
-
         builder.Property(x => x.PaymentMethod)
             .IsRequired();
 

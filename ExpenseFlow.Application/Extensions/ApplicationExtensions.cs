@@ -1,5 +1,6 @@
 ﻿    using ExpenseFlow.Application.ExceptionHandlers;
-    using ExpenseFlow.Application.ExpenseClaims;
+using ExpenseFlow.Application.ExpenseCategories;
+using ExpenseFlow.Application.ExpenseClaims;
 using ExpenseFlow.Application.Users;
 using ExpenseFlow.DataAccess;
     using ExpenseFlow.DataAccess.Users;
@@ -20,6 +21,7 @@ using ExpenseFlow.DataAccess;
         public static IServiceCollection AddApplications(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IExpenseClaimService, ExpenseClaimService>();
+            services.AddScoped<IExpenseCategoryService, ExpenseCategoryService>();
        
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
