@@ -2,6 +2,7 @@
 using ExpenseFlow.DataAccess.ExpenseCategories;
 using ExpenseFlow.DataAccess.ExpenseClaims;
 using ExpenseFlow.DataAccess.GenericRepository;
+using ExpenseFlow.DataAccess.PaymentTransactions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,24 +21,16 @@ public static class DataAccessExtensions
             options.UseSqlServer(connectionStrings!.SqlServer,sqlServerOptionsAction =>
             {
                sqlServerOptionsAction.MigrationsAssembly(typeof(DataAccessAssembly).Assembly.FullName);
-            });
-
-       
+            });     
         });
 
         services.AddScoped<IExpenseClaimRepository, ExpenseClaimRepository>();
         services.AddScoped<IExpenseCategoryRepository, ExpenseCategoryRepository>();
+        services.AddScoped<IPaymentTransactionRepository, PaymentTransactionRepository>();
+
         services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-
-        return services;
-   
-    
-    
-    
-    
+        return services;    
     }
-
-
 }

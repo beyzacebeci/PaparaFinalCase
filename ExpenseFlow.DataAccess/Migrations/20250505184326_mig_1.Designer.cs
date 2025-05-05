@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExpenseFlow.DataAccess.Migrations
 {
     [DbContext(typeof(ExpenseFlowDbContext))]
-    [Migration("20250504231204_mig_1")]
+    [Migration("20250505184326_mig_1")]
     partial class mig_1
     {
         /// <inheritdoc />
@@ -33,6 +33,9 @@ namespace ExpenseFlow.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
@@ -42,6 +45,9 @@ namespace ExpenseFlow.DataAccess.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -62,19 +68,23 @@ namespace ExpenseFlow.DataAccess.Migrations
                     b.Property<DateTime?>("ApprovalDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<int?>("ExpenseCategoryId")
+                    b.Property<int>("ExpenseCategoryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ExpenseDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ExpenseStatusDescription")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -91,26 +101,67 @@ namespace ExpenseFlow.DataAccess.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("RejectionReason")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.HasIndex("ExpenseCategoryId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("ExpenseClaim");
+                });
+
+            modelBuilder.Entity("ExpenseFlow.DataAccess.PaymentTransactions.PaymentTransaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ExpenseClaimId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentReference")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("PaymentStatus")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentTransaction");
                 });
 
             modelBuilder.Entity("ExpenseFlow.DataAccess.Users.User", b =>
@@ -120,6 +171,10 @@ namespace ExpenseFlow.DataAccess.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("Balance")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -133,6 +188,9 @@ namespace ExpenseFlow.DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IBAN")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
@@ -194,6 +252,7 @@ namespace ExpenseFlow.DataAccess.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
+                            Balance = 0m,
                             ConcurrencyStamp = "admin-concurrency-stamp",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
@@ -212,6 +271,7 @@ namespace ExpenseFlow.DataAccess.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
+                            Balance = 0m,
                             ConcurrencyStamp = "admin-concurrency-stamp",
                             Email = "user@gmail.com",
                             EmailConfirmed = false,
@@ -405,23 +465,19 @@ namespace ExpenseFlow.DataAccess.Migrations
 
             modelBuilder.Entity("ExpenseFlow.DataAccess.ExpenseClaims.ExpenseClaim", b =>
                 {
-                    b.HasOne("ExpenseFlow.DataAccess.ExpenseCategories.ExpenseCategory", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
+                    b.HasOne("ExpenseFlow.DataAccess.ExpenseCategories.ExpenseCategory", "ExpenseCategory")
+                        .WithMany("ExpenseClaims")
+                        .HasForeignKey("ExpenseCategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ExpenseFlow.DataAccess.ExpenseCategories.ExpenseCategory", null)
+                    b.HasOne("ExpenseFlow.DataAccess.Users.User", "User")
                         .WithMany("ExpenseClaims")
-                        .HasForeignKey("ExpenseCategoryId");
+                        .HasForeignKey("UserId");
 
-                    b.HasOne("ExpenseFlow.DataAccess.Users.User", null)
-                        .WithMany("ExpenseClaims")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("ExpenseCategory");
 
-                    b.Navigation("Category");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

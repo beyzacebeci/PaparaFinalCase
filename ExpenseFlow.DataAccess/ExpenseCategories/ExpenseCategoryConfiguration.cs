@@ -14,8 +14,8 @@ public class ExpenseCategoryConfiguration : IEntityTypeConfiguration<ExpenseCate
             .HasMaxLength(100);
 
         builder.HasMany(x => x.ExpenseClaims)
-            .WithOne(x => x.Category)
-            .HasForeignKey(x => x.CategoryId)
+            .WithOne(x => x.ExpenseCategory)
+            .HasForeignKey(x => x.ExpenseCategoryId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.Property(x => x.IsActive)

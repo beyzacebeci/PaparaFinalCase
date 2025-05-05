@@ -18,6 +18,7 @@ public class ExpenseCategoryService : IExpenseCategoryService
         _mapper = mapper;
         _unitOfWork = unitOfWork;
     }
+
     public async Task<ServiceResult<List<ExpenseCategoryResponse>>> GetAllListAsync()
     {
         var categories = await _expenseCategoryRepository.GetAll().ToListAsync();
@@ -49,20 +50,22 @@ public class ExpenseCategoryService : IExpenseCategoryService
 
         await _expenseCategoryRepository.AddAsync(category);
         await _unitOfWork.SaveChangesAsync();
-        //return ServiceResult<ExpenseCategoryResponse>.SuccessAsCreated(
-        //    new ExpenseCategoryResponse { Id = category.Id },
-        //    $"api/ExpenseCategories/{category.Id}"
-        //);
         return ServiceResult.Success(HttpStatusCode.NoContent);
 
     }
 
     public async Task<ServiceResult> UpdateAsync(int id, ExpenseCategoryRequest request)
     {
-        var category = _mapper.Map<ExpenseCategory>(request);
-        category.Id = id;
+        var existingCategory = await _expenseCategoryRepository.GetByIdAsync(id);
+        if (existingCategory == null)
+        {
+            return ServiceResult.Fail("Category not found", HttpStatusCode.NotFound);
+        }
 
-        _expenseCategoryRepository.Update(category);
+        _mapper.Map(request, existingCategory);
+        existingCategory.UpdatedDate = DateTime.UtcNow;
+
+        _expenseCategoryRepository.Update(existingCategory);
         await _unitOfWork.SaveChangesAsync();
 
         return ServiceResult.Success(HttpStatusCode.NoContent);
@@ -71,9 +74,13 @@ public class ExpenseCategoryService : IExpenseCategoryService
     public async Task<ServiceResult> DeleteAsync(int id)
     {
         var category = await _expenseCategoryRepository.GetByIdAsync(id);
+        if (category == null)
+        {
+            return ServiceResult.Fail("Category not found", HttpStatusCode.NotFound);
+        }
 
-
-        _expenseCategoryRepository.Delete(category!);
+        category.UpdatedDate = DateTime.UtcNow;
+        _expenseCategoryRepository.Delete(category);
         await _unitOfWork.SaveChangesAsync();
         return ServiceResult.Success(HttpStatusCode.NoContent);
     }

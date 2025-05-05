@@ -9,20 +9,23 @@ namespace ExpenseFlow.DataAccess;
 
 public class ExpenseFlowDbContext : IdentityDbContext<User>
 {
-    public ExpenseFlowDbContext(DbContextOptions<ExpenseFlowDbContext> options) : base(options)
-    {        
 
+    public ExpenseFlowDbContext(DbContextOptions<ExpenseFlowDbContext> options) : base(options)
+    {
     }
+
     public DbSet<ExpenseClaim> ExpenseClaim { get; set; } = default!;
     public DbSet<ExpenseCategory> ExpenseCategory { get; set; } = default!;
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-       
-
     }
-
 }
 

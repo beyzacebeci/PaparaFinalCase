@@ -27,7 +27,7 @@ public class ExpenseClaimConfiguration : IEntityTypeConfiguration<ExpenseClaim>
         builder.Property(x => x.Status)
             .IsRequired();
 
-        builder.Property(x => x.RejectionReason)
+        builder.Property(x => x.ExpenseStatusDescription)
             .HasMaxLength(500);
 
         builder.Property(x => x.PaymentMethod)
@@ -42,10 +42,11 @@ public class ExpenseClaimConfiguration : IEntityTypeConfiguration<ExpenseClaim>
         //builder.Property(x => x.ApprovedByUserId)
         //    .IsRequired(false);
 
-        builder.HasOne(x => x.Category)
-            .WithMany()
-            .HasForeignKey(x => x.CategoryId)
+        builder.HasOne(x => x.ExpenseCategory)
+            .WithMany(x => x.ExpenseClaims)
+            .HasForeignKey(x => x.ExpenseCategoryId)
             .OnDelete(DeleteBehavior.Restrict);
+
     }
 }
 

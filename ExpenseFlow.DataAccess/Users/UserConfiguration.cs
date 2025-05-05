@@ -6,6 +6,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
+        builder.Property(u => u.Balance)
+       .HasPrecision(18, 2);
+
         // Şifreler hashlenmiş olarak eklenmelidir
         var hasher = new PasswordHasher<User>();
             // Admin Password: Admin2024.
@@ -18,6 +21,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 LastName = "Admin",
                 Email ="admin@gmail.com",
                 UserName = "admin",
+                Balance = 0,
                 NormalizedUserName = "ADMIN",
                 PasswordHash = "AQAAAAEAACcQAAAAEEf2DGvVu8CMOcRhLn6V9ksInCCiM2rSw+aSuoOGNrBLK7KaQaQNhm+kGeBr3dWr0g==", // Şifrenin hash'ini buraya koymanız gerekecek
                 SecurityStamp = "admin-security-stamp",
@@ -30,6 +34,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 LastName = "Employee",
                 Email ="user@gmail.com",
                 UserName = "employee",
+                Balance = 0,
                 NormalizedUserName = "EMPLOYEE",
                 PasswordHash = "AQAAAAEAACcQAAAAEBaO23+qroKgH+c5jkG2EOeual/QDtvxvzcci35GoY/Yt+hPKhaGNuCt37b/Xpsl2A==", // Şifrenin hash'ini buraya koymanız gerekecek
                 SecurityStamp = "admin-security-stamp",

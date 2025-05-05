@@ -1,10 +1,11 @@
 ﻿using ExpenseFlow.Application.ExpenseCategories;
 using ExpenseFlow.Application.ExpenseClaims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseFlow.API.Controllers
 {
-
+    //[Authorize(Roles = "Admin")]
     public class ExpenseCategoriesController : CustomBaseController
     {
         private readonly IExpenseCategoryService _expenseCategoryService;
