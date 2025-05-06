@@ -29,8 +29,6 @@ public class ReportsController : CustomBaseController
         return Ok(result);
     }
 
-
-
     // Admin için tüm kullanıcıların raporu
     [Authorize(Roles = "Admin")]
     [HttpGet("all-users")]

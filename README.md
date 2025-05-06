@@ -4,27 +4,36 @@ A robust .NET-based API for managing employee expense claims. This application p
 
 ## 🚀 Features
 
-- **Authentication & Authorization**
+## 🔑 Authentication
 
-  - JWT-based authentication
-  - Role-based access control (Admin/Employee roles)
-  - User registration and login
-  - Token refresh mechanism
+The API uses JWT Bearer authentication. To access protected endpoints:
+
+1. Register a user using `/api/Authentication/register`
+2. Login using `/api/Authentication/login` to get a token
+3. Use the token in the Authorization header: `Bearer {your-token}`
+
+## 🔐 Authorization
+
+Two main roles are available:
+
+- **Admin**: Full access
+- **Employee**: Basic access
+
+### Default Users
+
+The system comes with two pre-configured users:
+
+| Role     | Username | Password     |
+| -------- | -------- | ------------ |
+| Admin    | admin    | Admin123.    |
+| Employee | employee | Employee123. |
 
 - **Expense Management**
 
   - CRUD operations for expense claims
   - Category-based expense organization
   - Expense status tracking (Pending, Approved, Rejected, Paid)
-  - Document upload support
   - Payment method tracking
-
-- **Payment Processing**
-
-  - Payment transaction tracking
-  - Bank integration simulation
-  - Payment status monitoring
-  - IBAN management
 
 - **Reporting System**
   - User-specific expense reports
@@ -34,7 +43,7 @@ A robust .NET-based API for managing employee expense claims. This application p
 
 ## 🛠 Technical Stack
 
-- **.NET 8.0**
+- **.NET 9.0**
 - **Entity Framework Core**
 - **SQL Server**
 - **AutoMapper**
@@ -56,7 +65,7 @@ The project follows Clean Architecture principles with these main layers:
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/ExpenseFlow.git
+git clone https://github.com/beyzacebeci/ExpenseFlow.git
 ```
 
 ### 2. Update the connection string in `appsettings.Development.json`
@@ -67,33 +76,42 @@ git clone https://github.com/yourusername/ExpenseFlow.git
 }
 ```
 
-### 3. Database Migration
+### 3. Database Migration Steps
+
+### Using Visual Studio Package Manager Console
+
+1. Set App.API as startup project
+2. Open Package Manager Console
+3. Set App.Repositories as Default Project in PMC
+4. Run these commands:
 
 ```bash
-# Navigate to ExpenseFlow.DataAccess
-cd ExpenseFlow.DataAccess
+# Create initial migration
+Add-Migration InitialCreate
 
-# Create migration
-dotnet ef migrations add InitialCreate
-
-# Apply migration
-dotnet ef database update
+# Apply migration to database
+Update-Database
 ```
 
-### 4. Build and Run
+### Using .NET CLI
+
+1. Open terminal in solution directory
+2. Navigate to App.Repositories project:
 
 ```bash
-# Navigate to API project
-cd ExpenseFlow.API
+cd App.DataAccess
+```
 
-# Restore dependencies
-dotnet restore
+3. Create migration:
 
-# Build project
-dotnet build
+```bash
+dotnet ef migrations add InitialCreate --startup-project ../App.API
+```
 
-# Run application
-dotnet run
+4. Apply migration:
+
+```bash
+dotnet ef database update --startup-project ../App.API
 ```
 
 ## 🔑 Authentication
@@ -116,7 +134,7 @@ Two main roles are available:
 When running in development mode, access the Swagger documentation at:
 
 ```bash
-https://localhost:5001/swagger
+https://localhost:7231/swagger
 ```
 
 ## ⚡ Key Endpoints
@@ -126,45 +144,88 @@ https://localhost:5001/swagger
 POST `/api/Authentication/register`
 
 - Creates a new user account
-- Body: UserRegistrationRequest
 - Public endpoint
+- Body: UserRegistrationRequest
+  - Email (string): User's email address
+  - Password (string): User's password
+  - FirstName (string): User's first name
+  - LastName (string): User's last name
+  - Role (string): User's role (Admin/Employee)
+- Returns: Registration result with success/failure message
 
 POST `/api/Authentication/login`
 
 - Authenticates a user and returns a JWT token
-- Body: UserLoginRequest
 - Public endpoint
+- Body: UserLoginRequest
+  - Email (string): User's email address
+  - Password (string): User's password
+- Returns: TokenResponse containing:
+  - AccessToken (string): JWT access token
+  - RefreshToken (string): Token for refreshing access
+  - Expiration (DateTime): Token expiration time
 
 POST `/api/Authentication/refresh`
 
 - Refreshes the access token
-- Body: TokenRefreshRequest
 - Public endpoint
+- Body: TokenRefreshRequest
+  - AccessToken (string): Current access token
+  - RefreshToken (string): Current refresh token
+- Returns: New TokenResponse with fresh tokens
 
 ### 💰 Expense Claims
 
 GET `/api/ExpenseClaims`
 
-- Lists all expense claims (Admin only)
+- Lists all expense claims
 - Authorization: Bearer token required
+- Role: Admin only
+- Returns all expense claims in the system with their details
 
 GET `/api/ExpenseClaims/user-claims`
 
 - Lists current user's expense claims
 - Authorization: Bearer token required
+- Role: Employee
+- Returns expense claims for the authenticated user
 
 POST `/api/ExpenseClaims`
 
 - Creates a new expense claim
-- Body: ExpenseClaimRequest
 - Authorization: Bearer token required
+- Role: Employee
+- Body: ExpenseClaimRequest
+  - ExpenseCategoryId (int): Category of the expense
+  - Amount (decimal): Expense amount
+  - Description (string): Detailed description
+  - Location (string): Where the expense occurred
+  - ExpenseDate (DateTime): Date of the expense
+  - PaymentMethod (enum): CreditCard, Cash, DebitCard, Other
+  - PaymentReference (string, optional): Reference number for payment
 
 PUT `/api/ExpenseClaims/{id}/status`
 
 - Updates expense claim status
-- Body: ExpenseClaimStatusUpdateRequest
-- Admin only
 - Authorization: Bearer token required
+- Role: Admin only
+- Body: ExpenseClaimStatusUpdateRequest
+  - Status (enum): Pending, Approved, Rejected, Paid
+  - ExpenseStatusDescription (string, optional): Reason for status change
+
+Expense Status Types:
+
+- Pending: Initial state of expense claim
+- Approved: Expense claim has been approved
+- Rejected: Expense claim has been rejected
+- Paid: Expense has been paid out
+
+Payment Methods:
+
+- CreditCard
+- Cash
+- DebitCard
+- Other
 
 ### 📊 Reports
 
@@ -172,44 +233,97 @@ GET `/api/Reports/user`
 
 - Gets current user's expense report
 - Authorization: Bearer token required
+- Role: Employee
+- Returns detailed expense report for the authenticated user
 
 GET `/api/Reports/all-users`
 
 - Gets expense reports for all users
-- Admin only
 - Authorization: Bearer token required
+- Role: Admin only
+- Returns comprehensive expense reports for all users in the system
 
 GET `/api/Reports/categories`
 
 - Gets category-based expense reports
-- Admin only
 - Authorization: Bearer token required
+- Role: Admin only
+- Returns expense statistics grouped by categories
+
+GET `/api/Reports/overall`
+
+- Gets overall expense statistics
+- Authorization: Bearer token required
+- Role: Admin only
+- Returns general expense statistics and metrics
 
 GET `/api/Reports/daily`
 
 - Gets daily expense report
-- Admin only
 - Authorization: Bearer token required
+- Role: Admin only
+- Query Parameters: date (DateTime)
+- Returns expense report for a specific day
 
 GET `/api/Reports/weekly`
 
 - Gets weekly expense report
-- Admin only
 - Authorization: Bearer token required
+- Role: Admin only
+- Query Parameters: startOfWeek (DateTime)
+- Returns expense report for a specific week
 
 GET `/api/Reports/monthly`
 
 - Gets monthly expense report
-- Admin only
 - Authorization: Bearer token required
+- Role: Admin only
+- Query Parameters: year (int), month (int)
+- Returns expense report for a specific month
 
 ### 💳 Payment Transactions
 
 GET `/api/PaymentTransactions`
 
 - Lists all payment transactions
-- Admin only
 - Authorization: Bearer token required
+- Role: Admin only
+- Returns: List of payment transactions with details:
+  - TransactionId (string)
+  - Amount (decimal)
+  - Status (enum): Pending, Completed, Failed
+  - PaymentDate (DateTime)
+  - PaymentMethod (enum): CreditCard, Cash, DebitCard, Other
+  - ReferenceNumber (string)
+  - RelatedExpenseClaim (ExpenseClaim)
+
+POST `/api/PaymentTransactions`
+
+- Creates a new payment transaction
+- Authorization: Bearer token required
+- Role: Admin only
+- Body: PaymentTransactionRequest
+  - ExpenseClaimId (int): ID of the related expense claim
+  - Amount (decimal): Payment amount
+  - PaymentMethod (enum): CreditCard, Cash, DebitCard, Other
+  - ReferenceNumber (string): Payment reference number
+- Returns: Created payment transaction details
+
+PUT `/api/PaymentTransactions/{id}/status`
+
+- Updates payment transaction status
+- Authorization: Bearer token required
+- Role: Admin only
+- Body: PaymentStatusUpdateRequest
+  - Status (enum): Pending, Completed, Failed
+  - StatusDescription (string, optional): Reason for status change
+- Returns: Updated payment transaction
+
+Payment Transaction Status Types:
+
+- Pending: Initial state of payment
+- Completed: Payment has been successfully processed
+- Failed: Payment processing failed
 
 ## 🛡 Security Features
 
@@ -236,7 +350,3 @@ Key NuGet packages:
 3. Commit your changes
 4. Push to the branch
 5. Create a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
