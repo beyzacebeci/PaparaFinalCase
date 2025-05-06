@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExpenseFlow.DataAccess.Migrations
 {
     [DbContext(typeof(ExpenseFlowDbContext))]
-    [Migration("20250505184326_mig_1")]
+    [Migration("20250506133729_mig_1")]
     partial class mig_1
     {
         /// <inheritdoc />
@@ -52,6 +52,32 @@ namespace ExpenseFlow.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ExpenseCategory");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2025, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Name = "Ulaşım",
+                            UpdatedDate = new DateTime(2025, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedDate = new DateTime(2025, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Name = "Yemek",
+                            UpdatedDate = new DateTime(2025, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedDate = new DateTime(2025, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsActive = true,
+                            Name = "Ofis Malzemeleri",
+                            UpdatedDate = new DateTime(2025, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("ExpenseFlow.DataAccess.ExpenseClaims.ExpenseClaim", b =>
@@ -117,6 +143,95 @@ namespace ExpenseFlow.DataAccess.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ExpenseClaim");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Amount = 320.00m,
+                            ApprovalDate = new DateTime(2025, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2025, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Toplantı için şehir dışı ulaşım gideri",
+                            ExpenseCategoryId = 1,
+                            ExpenseDate = new DateTime(2025, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpenseStatusDescription = "Yönetici tarafından onaylandı",
+                            IsActive = true,
+                            Location = "İstanbul",
+                            PaymentMethod = 0,
+                            PaymentReference = "ODENE123",
+                            Status = 1,
+                            UpdatedDate = new DateTime(2025, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = "2"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Amount = 85.50m,
+                            CreatedDate = new DateTime(2025, 4, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Müşteri ile öğle yemeği",
+                            ExpenseCategoryId = 2,
+                            ExpenseDate = new DateTime(2025, 4, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpenseStatusDescription = "Beklemede.",
+                            IsActive = true,
+                            Location = "Ankara",
+                            PaymentMethod = 1,
+                            Status = 0,
+                            UpdatedDate = new DateTime(2025, 4, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = "2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Amount = 210.75m,
+                            CreatedDate = new DateTime(2025, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Yeni yazıcı kartuşu ve kırtasiye giderleri",
+                            ExpenseCategoryId = 3,
+                            ExpenseDate = new DateTime(2025, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpenseStatusDescription = "Fatura eksikliği nedeniyle reddedildi",
+                            IsActive = true,
+                            Location = "İzmir",
+                            PaymentMethod = 2,
+                            PaymentReference = "FIS789",
+                            Status = 2,
+                            UpdatedDate = new DateTime(2025, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = "2"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Amount = 1250.00m,
+                            ApprovalDate = new DateTime(2025, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "İstanbul müşteri ziyareti için uçak bileti",
+                            ExpenseCategoryId = 1,
+                            ExpenseDate = new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpenseStatusDescription = "Yönetici onayı alındı",
+                            IsActive = true,
+                            Location = "İstanbul",
+                            PaymentMethod = 0,
+                            PaymentReference = "FLIGHT123",
+                            Status = 1,
+                            UpdatedDate = new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = "1"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Amount = 89.99m,
+                            ApprovalDate = new DateTime(2025, 4, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2025, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Ofis kahve makinesi için temizlik malzemeleri",
+                            ExpenseCategoryId = 2,
+                            ExpenseDate = new DateTime(2025, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpenseStatusDescription = "Ödeme tamamlandı",
+                            IsActive = true,
+                            Location = "Ankara",
+                            PaymentMethod = 1,
+                            PaymentReference = "CASH456",
+                            Status = 3,
+                            UpdatedDate = new DateTime(2025, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = "1"
+                        });
                 });
 
             modelBuilder.Entity("ExpenseFlow.DataAccess.PaymentTransactions.PaymentTransaction", b =>
@@ -252,11 +367,12 @@ namespace ExpenseFlow.DataAccess.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            Balance = 0m,
+                            Balance = 2345m,
                             ConcurrencyStamp = "admin-concurrency-stamp",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
+                            IBAN = "TR000100200300400500600004",
                             LastName = "Admin",
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
@@ -271,11 +387,12 @@ namespace ExpenseFlow.DataAccess.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            Balance = 0m,
+                            Balance = 2345m,
                             ConcurrencyStamp = "admin-concurrency-stamp",
                             Email = "user@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Employee",
+                            IBAN = "TR000100200300400500600000",
                             LastName = "Employee",
                             LockoutEnabled = false,
                             NormalizedUserName = "EMPLOYEE",

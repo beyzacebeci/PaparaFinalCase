@@ -19,8 +19,14 @@ public class ExpenseCategoryConfiguration : IEntityTypeConfiguration<ExpenseCate
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.Property(x => x.IsActive)
-    .IsRequired()
-    .HasDefaultValue(true);
+            .IsRequired()
+            .HasDefaultValue(true);
+
+        builder.HasData(
+            new ExpenseCategory { Id = 1, Name = "Ulaşım", CreatedDate = new DateTime(2025, 5, 6), UpdatedDate = new DateTime(2025, 5, 6) },
+            new ExpenseCategory { Id = 2, Name = "Yemek", CreatedDate = new DateTime(2025, 5, 6), UpdatedDate = new DateTime(2025, 5, 6) },
+            new ExpenseCategory { Id = 3, Name = "Ofis Malzemeleri", CreatedDate = new DateTime(2025, 5, 6), UpdatedDate = new DateTime(2025, 5, 6) }
+        );
     }
-    }
+}
 

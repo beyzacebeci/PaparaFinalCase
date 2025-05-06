@@ -1,4 +1,5 @@
 ﻿using ExpenseFlow.DataAccess.ExpenseClaims;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,14 @@ namespace ExpenseFlow.DataAccess.ExpenseCategories
         public ExpenseCategoryRepository(ExpenseFlowDbContext context) : base(context)
         {
             _context = context;
+        }
+
+        public async Task<List<ExpenseCategory>> GetAllIncludingClaimsAsync()
+        {
+            return await _context.ExpenseCategory
+                .Include(c => c.ExpenseClaims)
+                .Where(c => c.ExpenseClaims.Any())
+                .ToListAsync();
         }
     }
 }

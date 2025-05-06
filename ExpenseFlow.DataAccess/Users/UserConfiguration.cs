@@ -9,7 +9,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.Balance)
        .HasPrecision(18, 2);
 
-        // Şifreler hashlenmiş olarak eklenmelidir
         var hasher = new PasswordHasher<User>();
             // Admin Password: Admin2024.
             // Employee Password: Employee2024.
@@ -21,9 +20,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 LastName = "Admin",
                 Email ="admin@gmail.com",
                 UserName = "admin",
-                Balance = 0,
+                IBAN = "TR000100200300400500600004",
+                Balance = 2345,
                 NormalizedUserName = "ADMIN",
-                PasswordHash = "AQAAAAEAACcQAAAAEEf2DGvVu8CMOcRhLn6V9ksInCCiM2rSw+aSuoOGNrBLK7KaQaQNhm+kGeBr3dWr0g==", // Şifrenin hash'ini buraya koymanız gerekecek
+                PasswordHash = "AQAAAAEAACcQAAAAEEf2DGvVu8CMOcRhLn6V9ksInCCiM2rSw+aSuoOGNrBLK7KaQaQNhm+kGeBr3dWr0g==", 
                 SecurityStamp = "admin-security-stamp",
                 ConcurrencyStamp = "admin-concurrency-stamp"
             },
@@ -34,9 +34,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 LastName = "Employee",
                 Email ="user@gmail.com",
                 UserName = "employee",
-                Balance = 0,
+                IBAN = "TR000100200300400500600000",
+                Balance = 2345,
                 NormalizedUserName = "EMPLOYEE",
-                PasswordHash = "AQAAAAEAACcQAAAAEBaO23+qroKgH+c5jkG2EOeual/QDtvxvzcci35GoY/Yt+hPKhaGNuCt37b/Xpsl2A==", // Şifrenin hash'ini buraya koymanız gerekecek
+                PasswordHash = "AQAAAAEAACcQAAAAEBaO23+qroKgH+c5jkG2EOeual/QDtvxvzcci35GoY/Yt+hPKhaGNuCt37b/Xpsl2A==", 
                 SecurityStamp = "admin-security-stamp",
                 ConcurrencyStamp = "admin-concurrency-stamp"
             }

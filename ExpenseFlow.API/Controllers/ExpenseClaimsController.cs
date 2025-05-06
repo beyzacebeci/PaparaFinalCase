@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ExpenseFlow.API.Controllers
 {
-    //[Authorize]
+
     public class ExpenseClaimsController : CustomBaseController
     {
         private readonly IExpenseClaimService _expenseClaimService;
@@ -36,8 +36,7 @@ namespace ExpenseFlow.API.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id) => CreateActionResult(await _expenseClaimService.DeleteAsync(id));
 
-        //bu endpoint ile employee yalnizca kendi masraflarını gorur.
-        [Authorize(Roles = "Employee")]
+        [Authorize(Roles = "Employee,Admin")]
         [HttpGet("user-claims")]
         public async Task<IActionResult> GetMyClaims()
         {

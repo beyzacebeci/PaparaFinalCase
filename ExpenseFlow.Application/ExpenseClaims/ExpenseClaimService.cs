@@ -138,17 +138,17 @@ public class ExpenseClaimService : IExpenseClaimService
 
         if (string.IsNullOrEmpty(userId))
         {
-            return false; // Kullanıcı kimliği bulunamadıysa admin değil
+            return false;
         }
 
         var user = await _userManager.FindByIdAsync(userId);
         if (user == null)
         {
-            return false; // Kullanıcı bulunamadıysa admin değil
+            return false; 
         }
 
         var roles = await _userManager.GetRolesAsync(user);
-        return roles.Contains("Admin"); // Kullanıcı admin rolüne sahipse true döner
+        return roles.Contains("Admin"); 
     }
 
     public async Task<ServiceResult> UpdateExpenseClaimStatusAsync(int id, ExpenseStatus newStatus, string? statusDescription = null)
@@ -176,6 +176,26 @@ public class ExpenseClaimService : IExpenseClaimService
         {
             expenseClaim.ApprovalDate = DateTime.UtcNow;
 
+        }
+
+        if (newStatus == ExpenseStatus.Paid)
+        {
+            var user = await _userManager.FindByIdAsync(expenseClaim.UserId!);
+
+            if (user == null)
+            {
+                return ServiceResult.Fail("Kullanıcı bulunamadı", HttpStatusCode.NotFound);
+            }
+
+            user.Balance += expenseClaim.Amount;
+
+            var updateResult = await _userManager.UpdateAsync(user);
+
+            if (!updateResult.Succeeded)
+            {
+                return ServiceResult.Fail("Kullanıcı bakiyesi güncellenemedi", HttpStatusCode.InternalServerError);
+            }
+
             var paymentRequest = new PaymentTransactionRequest
             {
                 ExpenseClaimId = expenseClaim.Id,
@@ -183,7 +203,7 @@ public class ExpenseClaimService : IExpenseClaimService
                 Amount = expenseClaim.Amount,
                 PaymentDate = DateTime.UtcNow,
                 PaymentReference = expenseClaim.PaymentReference,
-                PaymentStatus = "Success" 
+                PaymentStatus = "Success"
             };
 
             await _paymentTransactionService.CreateAsync(paymentRequest);

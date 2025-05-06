@@ -253,8 +253,18 @@ namespace ExpenseFlow.DataAccess.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "Balance", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IBAN", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "RefreshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, 0m, "admin-concurrency-stamp", "admin@gmail.com", false, "Admin", null, "Admin", false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEEf2DGvVu8CMOcRhLn6V9ksInCCiM2rSw+aSuoOGNrBLK7KaQaQNhm+kGeBr3dWr0g==", null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin-security-stamp", false, "admin" },
-                    { "2", 0, 0m, "admin-concurrency-stamp", "user@gmail.com", false, "Employee", null, "Employee", false, null, null, "EMPLOYEE", "AQAAAAEAACcQAAAAEBaO23+qroKgH+c5jkG2EOeual/QDtvxvzcci35GoY/Yt+hPKhaGNuCt37b/Xpsl2A==", null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin-security-stamp", false, "employee" }
+                    { "1", 0, 2345m, "admin-concurrency-stamp", "admin@gmail.com", false, "Admin", "TR000100200300400500600004", "Admin", false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEEf2DGvVu8CMOcRhLn6V9ksInCCiM2rSw+aSuoOGNrBLK7KaQaQNhm+kGeBr3dWr0g==", null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin-security-stamp", false, "admin" },
+                    { "2", 0, 2345m, "admin-concurrency-stamp", "user@gmail.com", false, "Employee", "TR000100200300400500600000", "Employee", false, null, null, "EMPLOYEE", "AQAAAAEAACcQAAAAEBaO23+qroKgH+c5jkG2EOeual/QDtvxvzcci35GoY/Yt+hPKhaGNuCt37b/Xpsl2A==", null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin-security-stamp", false, "employee" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ExpenseCategory",
+                columns: new[] { "Id", "CreatedDate", "IsActive", "Name", "UpdatedDate" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2025, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "Ulaşım", new DateTime(2025, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, new DateTime(2025, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "Yemek", new DateTime(2025, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, new DateTime(2025, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "Ofis Malzemeleri", new DateTime(2025, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -264,6 +274,18 @@ namespace ExpenseFlow.DataAccess.Migrations
                 {
                     { "1", "1" },
                     { "2", "2" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ExpenseClaim",
+                columns: new[] { "Id", "Amount", "ApprovalDate", "CreatedDate", "Description", "ExpenseCategoryId", "ExpenseDate", "ExpenseStatusDescription", "IsActive", "Location", "PaymentMethod", "PaymentReference", "Status", "UpdatedDate", "UserId" },
+                values: new object[,]
+                {
+                    { 1, 320.00m, new DateTime(2025, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Toplantı için şehir dışı ulaşım gideri", 1, new DateTime(2025, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Yönetici tarafından onaylandı", true, "İstanbul", 0, "ODENE123", 1, new DateTime(2025, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "2" },
+                    { 2, 85.50m, null, new DateTime(2025, 4, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Müşteri ile öğle yemeği", 2, new DateTime(2025, 4, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Beklemede.", true, "Ankara", 1, null, 0, new DateTime(2025, 4, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "2" },
+                    { 3, 210.75m, null, new DateTime(2025, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "Yeni yazıcı kartuşu ve kırtasiye giderleri", 3, new DateTime(2025, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "Fatura eksikliği nedeniyle reddedildi", true, "İzmir", 2, "FIS789", 2, new DateTime(2025, 4, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "2" },
+                    { 4, 1250.00m, new DateTime(2025, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "İstanbul müşteri ziyareti için uçak bileti", 1, new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Yönetici onayı alındı", true, "İstanbul", 0, "FLIGHT123", 1, new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "1" },
+                    { 5, 89.99m, new DateTime(2025, 4, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ofis kahve makinesi için temizlik malzemeleri", 2, new DateTime(2025, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Ödeme tamamlandı", true, "Ankara", 1, "CASH456", 3, new DateTime(2025, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "1" }
                 });
 
             migrationBuilder.CreateIndex(

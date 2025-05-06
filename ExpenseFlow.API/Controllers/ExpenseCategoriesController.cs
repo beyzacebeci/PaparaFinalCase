@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ExpenseFlow.API.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class ExpenseCategoriesController : CustomBaseController
     {
         private readonly IExpenseCategoryService _expenseCategoryService;

@@ -1,5 +1,6 @@
 ﻿using ExpenseFlow.DataAccess.ExpenseCategories;
 using ExpenseFlow.DataAccess.ExpenseClaims;
+using ExpenseFlow.DataAccess.PaymentTransactions;
 using ExpenseFlow.DataAccess.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ public class ExpenseFlowDbContext : IdentityDbContext<User>
 
     public DbSet<ExpenseClaim> ExpenseClaim { get; set; } = default!;
     public DbSet<ExpenseCategory> ExpenseCategory { get; set; } = default!;
+    public DbSet<PaymentTransaction> PaymentTransaction { get; set; } = default!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
