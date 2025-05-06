@@ -15,7 +15,8 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<ExpenseClaim,ExpenseClaimResponse>().ReverseMap();
+        CreateMap<ExpenseClaim, ExpenseClaimResponse>()
+            .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.ExpenseCategory.Name));
         CreateMap<ExpenseClaimRequest, ExpenseClaim>();
 
         CreateMap<PaymentTransaction, PaymentTransactionResponse>().ReverseMap();

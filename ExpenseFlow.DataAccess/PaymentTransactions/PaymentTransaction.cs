@@ -6,7 +6,7 @@ public class PaymentTransaction : BaseEntity<int>
     public string UserId { get; set; }
     public decimal Amount { get; set; }
     public DateTime PaymentDate { get; set; }
-    public string PaymentReference { get; set; } = default!;
+    public string? PaymentReference { get; set; } = default!;
     public string PaymentStatus { get; set; } // success, fail
 }
 

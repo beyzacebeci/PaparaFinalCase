@@ -40,7 +40,10 @@ public class ExpenseClaimService : IExpenseClaimService
 
     public async Task<ServiceResult<List<ExpenseClaimResponse>>> GetAllListAsync()
     {
-        var expenseclaims = await _expenseClaimRepository.GetAll().ToListAsync();
+        var expenseclaims = await _expenseClaimRepository
+            .GetAll()
+            .Include(x => x.ExpenseCategory) 
+            .ToListAsync();
         var expenseClaimsAsDto = _mapper.Map<List<ExpenseClaimResponse>>(expenseclaims);
 
         return ServiceResult<List<ExpenseClaimResponse>>.Success(expenseClaimsAsDto);
@@ -48,7 +51,10 @@ public class ExpenseClaimService : IExpenseClaimService
 
     public async Task<ServiceResult<ExpenseClaimResponse?>> GetByIdAsync(int id)
     {
-        var expenseClaim = await _expenseClaimRepository.GetByIdAsync(id);
+        var expenseClaim = await _expenseClaimRepository
+            .Where(x => x.Id == id)
+            .Include(x => x.ExpenseCategory)
+            .FirstOrDefaultAsync();
 
         if (expenseClaim is null)
         {
@@ -125,6 +131,7 @@ public class ExpenseClaimService : IExpenseClaimService
 
         var expenseClaims = await _expenseClaimRepository
             .Where(x => x.UserId == userId)
+            .Include(x => x.ExpenseCategory)
             .ToListAsync();
 
         var dto = _mapper.Map<List<ExpenseClaimResponse>>(expenseClaims);
