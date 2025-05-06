@@ -1,6 +1,6 @@
 # Expense Flow API
 
-A robust .NET-based API for managing employee expense claims. This application provides functionality for expense management, user authentication, payment processing, and comprehensive reporting.
+A robust .NET-based API for managing employee expense claims. This application provides functionality for expense management, user authentication and comprehensive reporting.
 
 ## 🚀 Features
 
@@ -11,6 +11,9 @@ The API uses JWT Bearer authentication. To access protected endpoints:
 1. Register a user using `/api/Authentication/register`
 2. Login using `/api/Authentication/login` to get a token
 3. Use the token in the Authorization header: `Bearer {your-token}`
+## Database Diagram
+![image](https://github.com/user-attachments/assets/d842bbcb-6d30-4be9-b39b-be9c143b8fa3)
+
 
 ## 🔐 Authorization
 
